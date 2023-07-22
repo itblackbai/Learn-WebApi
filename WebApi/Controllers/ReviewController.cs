@@ -13,11 +13,16 @@ namespace WebApi.Controllers
     {
         private readonly IReviewRepository _reviewRepository;
         private readonly IMapper _mapper;
+        private readonly IPokemonRepository _pokemonRepository;
+        private readonly IReviwerRepository _reviwerRepository;
 
-        public ReviewController(IReviewRepository reviewRepository , IMapper mapper)
+        public ReviewController(IReviewRepository reviewRepository , IMapper mapper, IPokemonRepository pokemonRepository, IReviwerRepository reviwerRepository)
         {
             _reviewRepository = reviewRepository;
             _mapper = mapper;
+             _pokemonRepository = pokemonRepository;
+            _reviwerRepository = reviwerRepository;
+
         }
 
 
@@ -62,6 +67,43 @@ namespace WebApi.Controllers
                 return BadRequest();
 
             return Ok(review);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(400)]
+        public IActionResult CreateReview([FromQuery] int reviewerId, [FromQuery] int pokeId, [FromBody] ReviewDto reviewCreate)
+        {
+            if (reviewCreate == null)
+                return BadRequest(ModelState);
+
+            var review = _reviewRepository.GetReviews().
+                Where(c => c.Title.Trim().ToUpper() == reviewCreate.Title.TrimEnd().ToUpper())
+                .FirstOrDefault();
+
+            if (review != null)
+            {
+                ModelState.AddModelError("", "Review already exists");
+                return StatusCode(422, ModelState);
+            }
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var reviewMap = _mapper.Map<Review>(reviewCreate);
+
+            reviewMap.Pokemon =_pokemonRepository.GetPokemon(pokeId);
+            reviewMap.Reviewer = _reviwerRepository.GetReviewer(reviewerId);
+
+            if (!_reviewRepository.CreateReview(reviewMap))
+            {
+                ModelState.AddModelError("", "Something went wrong while savin");
+                return StatusCode(500, ModelState);
+            }
+
+
+            return Ok("Successfully created");
+
         }
 
     }

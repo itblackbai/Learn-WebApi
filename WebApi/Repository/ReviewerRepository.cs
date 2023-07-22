@@ -16,6 +16,13 @@ namespace WebApi.Repository
             _mapper = mapper;
         }
 
+        public bool CreateReviwer(Reviewer reviewer)
+        {
+            _context.Add(reviewer);
+            return Save();
+
+        }
+
         public Reviewer GetReviewer(int reviverId)
         {
             return _context.Reviewers.Where(r => r.Id == reviverId).Include(e => e.Reviews).FirstOrDefault();
@@ -34,6 +41,12 @@ namespace WebApi.Repository
         public bool ReviewerExists(int reviewerId)
         {
             return _context.Reviewers.Any(r => r.Id == reviewerId);
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

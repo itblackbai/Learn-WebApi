@@ -1,4 +1,5 @@
-﻿using WebApi.Data;
+﻿using System.Diagnostics.Metrics;
+using WebApi.Data;
 using WebApi.Interfaces;
 using WebApi.Models;
 
@@ -11,6 +12,13 @@ namespace WebApi.Repository
         {
           _context = context;
         }
+
+        public bool CreateOwner(Owner owner)
+        {
+            _context.Add(owner);
+            return Save();
+        }
+
         public Owner GetOwner(int ownerId)
         {
             return _context.Owners.Where(o => o.Id == ownerId).FirstOrDefault();
@@ -34,6 +42,12 @@ namespace WebApi.Repository
         public bool OwnerExists(int ownerId)
         {
             return _context.Owners.Any(o => o.Id == ownerId);
+        }
+
+        public bool Save()
+        {
+            var saved = _context.SaveChanges();
+            return saved > 0 ? true : false;
         }
     }
 }

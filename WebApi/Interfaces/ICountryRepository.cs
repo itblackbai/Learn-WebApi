@@ -12,5 +12,8 @@ namespace WebApi.Interfaces
         ICollection<Owner> GetOwnersFromCounty(int countryId);
 
         bool CountyExists(int id);
+        bool CreateCountry(Country country);
+
+        bool Save();
     }
 }
