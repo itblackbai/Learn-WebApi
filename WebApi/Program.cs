@@ -1,5 +1,6 @@
 
 using Microsoft.EntityFrameworkCore;
+using System.Text.Json.Serialization;
 using WebApi.Data;
 using WebApi.Interfaces;
 using WebApi.Repository;
@@ -17,6 +18,8 @@ namespace WebApi
             builder.Services.AddControllers();
             //Seed Data
             builder.Services.AddTransient<Seed>();
+            builder.Services.AddControllers().AddJsonOptions(x =>
+                    x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             //Mapping
             builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             //Interfaces && Repository

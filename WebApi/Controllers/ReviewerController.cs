@@ -51,13 +51,13 @@ namespace WebApi.Controllers
 
 
 
-        [HttpGet("{reviewerId/reviews")]
+        [HttpGet("{reviewerId}/reviews")]
         public IActionResult GetReviewsByAreviewer(int reviewerId)
         {
             if (!_reviwerRepository.ReviewerExists(reviewerId))
                 return NotFound();
 
-            var reviewer = _mapper.Map<List<ReviewerDto>>(_reviwerRepository.GetReviewersByReviewer(reviewerId));
+            var reviewer = _mapper.Map<List<ReviewDto>>(_reviwerRepository.GetReviewsByReviewer(reviewerId));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

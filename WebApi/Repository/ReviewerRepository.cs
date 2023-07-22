@@ -26,10 +26,11 @@ namespace WebApi.Repository
            return _context.Reviewers.ToList();
         }
 
-        public ICollection<Reviewer> GetReviewersByReviewer(int reviewerId)
+        public ICollection<Review> GetReviewsByReviewer(int reviewerId)
         {
-            return (ICollection<Reviewer>)_context.Reviews.Where(r => r.Reviewer.Id == reviewerId).ToList();
+            return _context.Reviews.Where(r => r.Reviewer.Id == reviewerId).ToList();
         }
+
         public bool ReviewerExists(int reviewerId)
         {
             return _context.Reviewers.Any(r => r.Id == reviewerId);

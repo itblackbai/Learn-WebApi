@@ -5,8 +5,8 @@ namespace WebApi.Interfaces
     public interface IReviwerRepository
     {
         ICollection<Reviewer> GetReviewers();
-        Reviewer GetReviewer(int reviverId);
-        ICollection<Reviewer> GetReviewersByReviewer(int reviewerId);
+        Reviewer GetReviewer(int reviewerId);
+        ICollection<Review> GetReviewsByReviewer(int reviewerId);
         bool ReviewerExists(int reviewerId);
     }
 }

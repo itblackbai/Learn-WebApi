@@ -40,7 +40,7 @@ namespace WebApi.Controllers
             if (!_ownerRepository.OwnerExists(ownerId))
                 return NotFound();
 
-            var owner = _mapper.Map<PokemonDto>(_ownerRepository.GetOwner(ownerId));
+            var owner = _mapper.Map<OwnerDto>(_ownerRepository.GetOwner(ownerId));
 
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -65,5 +65,6 @@ namespace WebApi.Controllers
 
             return Ok(owner);
         }
+
     }
 }
