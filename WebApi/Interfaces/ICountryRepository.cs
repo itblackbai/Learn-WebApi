@@ -13,6 +13,7 @@ namespace WebApi.Interfaces
 
         bool CountyExists(int id);
         bool CreateCountry(Country country);
+        bool UpdateCountry(Country country);
 
         bool Save();
     }

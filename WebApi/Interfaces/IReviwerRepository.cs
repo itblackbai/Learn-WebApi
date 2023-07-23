@@ -10,6 +10,8 @@ namespace WebApi.Interfaces
         bool ReviewerExists(int reviewerId);
 
         bool CreateReviwer(Reviewer reviewer);
+
+        bool UpdateReviewer(Reviewer reviewer);
         bool Save();
     }
 }

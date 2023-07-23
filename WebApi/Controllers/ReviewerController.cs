@@ -100,5 +100,34 @@ namespace WebApi.Controllers
 
         }
 
+        [HttpPut("reviwerId")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult UpdateReviwer(int reviwerId, [FromBody] ReviewerDto updatedReviwer)
+        {
+            if (updatedReviwer == null)
+                return BadRequest(ModelState);
+
+            if (reviwerId != updatedReviwer.Id)
+                return BadRequest(ModelState);
+
+            if (!_reviwerRepository.ReviewerExists(reviwerId))
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var reviwerMap = _mapper.Map<Reviewer>(updatedReviwer);
+
+            if (!_reviwerRepository.UpdateReviewer(reviwerMap))
+            {
+                ModelState.AddModelError("", "Something went wrong updating rewiver");
+                return StatusCode(500, ModelState);
+            }
+
+            return NoContent();
+        }
+
     }
 }
