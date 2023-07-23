@@ -129,5 +129,29 @@ namespace WebApi.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{reviwerId}")]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(204)]
+        [ProducesResponseType(404)]
+        public IActionResult DeleteReviwer(int reviwerId)
+        {
+            if (!_reviwerRepository.ReviewerExists(reviwerId))
+            {
+                return NotFound();
+            }
+
+            var reviwerToDelete = _reviwerRepository.GetReviewer(reviwerId);
+
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            if (!_reviwerRepository.DeleteReviewer(reviwerToDelete))
+            {
+                ModelState.AddModelError("", "Something went wrong deleting reviwer");
+            }
+
+            return NoContent();
+        }
+
     }
 }

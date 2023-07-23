@@ -12,6 +12,8 @@ namespace WebApi.Interfaces
         bool CreateReviwer(Reviewer reviewer);
 
         bool UpdateReviewer(Reviewer reviewer);
+
+        bool DeleteReviewer(Reviewer reviewer);
         bool Save();
     }
 }

@@ -23,6 +23,12 @@ namespace WebApi.Repository
 
         }
 
+        public bool DeleteReviewer(Reviewer reviewer)
+        {
+            _context.Remove(reviewer);
+            return Save();
+        }
+
         public Reviewer GetReviewer(int reviverId)
         {
             return _context.Reviewers.Where(r => r.Id == reviverId).Include(e => e.Reviews).FirstOrDefault();
